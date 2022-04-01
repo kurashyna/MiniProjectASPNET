@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Dish.cs" />
+    <Compile Include="Models\DishCategories.cs" />
     <Compile Include="Models\Restaurant.cs" />
     <Compile Include="Models\RestaurantCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

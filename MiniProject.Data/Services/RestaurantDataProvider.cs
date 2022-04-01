@@ -1,4 +1,5 @@
 ﻿using MiniProject.data.Models;
+using MiniProject.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,9 +37,20 @@ namespace MiniProject.data.Services
             throw new NotImplementedException();
         }
 
+
         public List<Restaurant> GetRestaurants()
         {
             return restaurants.OrderBy(r => r.Stars).ToList();
+        }
+
+        public Restaurant GetRestaurant(int id)
+        {
+            return restaurants.OrderBy(r => r.RestaurantId).ToList()[id - 1];
+        }
+
+        public List<Dish> GetDishes(Restaurant restaurant)
+        {
+            return restaurant.Dishes.OrderBy(r => r.Id).ToList();
         }
 
     }   
