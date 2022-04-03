@@ -41,7 +41,7 @@ namespace MiniProject.data.Services
         public List<Restaurant> GetRestaurants()
         {
             return restaurants.OrderBy(r => r.Stars).ToList();
-        }
+        }   
 
         public Restaurant GetRestaurant(int id)
         {

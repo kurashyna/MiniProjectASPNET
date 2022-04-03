@@ -1,0 +1,22 @@
+﻿@model MiniProject.data.Models.Restaurant
+
+@{
+    ViewBag.Title = @Model.Name;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@Model.Name</title>
+</head>
+<body>
+<div class="row mt-5">
+    <div class="col">
+        <h1 class="fs-1">@Model.Name</h1>
+        <p> @Model.Address </p>
+    </div>
+</div>
+</body>
+</html>
