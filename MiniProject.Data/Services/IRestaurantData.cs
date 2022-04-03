@@ -14,5 +14,6 @@ namespace MiniProject.data.Services
         Restaurant GetRestaurant(int id);
         void AddRestaurant(Restaurant restaurant);
         List<Dish> GetDishes(Restaurant restaurant);
+        Dish GetDishById(Restaurant restaurant, int DishId);
     }
 }

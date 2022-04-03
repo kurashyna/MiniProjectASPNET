@@ -12,42 +12,44 @@
     @{ foreach (var restaurant in Model)
         {       
         <div class="col">               
-                <div class="card mb-3 text-black" style="max-width: 540px;">
-                        <a href="@Url.Action("Index", "Restaurant", new { id = restaurant.RestaurantId})" style="text-decoration: none; color: currentColor">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <div class="ratio ratio-1x1">
-                                        <img src=@restaurant.Image class="img-fluid rounded-start" alt="...">
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">
-                                            @restaurant.Name <span class="badge bg-danger">
-                                                -@restaurant.Discount%
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tag-fill" viewBox="0 0 16 16">
-                                                    <path d="M2 1a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l4.586-4.586a1 1 0 0 0 0-1.414l-7-7A1 1 0 0 0 6.586 1H2zm4 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                                                </svg>
-                                            </span>
-                                        </h5>
-                                        <p class="card-subtitle mb-2 text-muted">@restaurant.Address</p>
-                                        <p class="card-text">
-                                            <small class="text-muted">
-                                                @restaurant.Category - Average price : @restaurant.AveragePrice €
-                                            </small>
-                                        </p>
-
-                                        <p class="card-text">
-                                            @restaurant.Stars
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                                            </svg>
-                                        </p>
-                                    </div>
-                                </div>
+            <div class="card mb-3 text-black" style="max-width: 540px;">
+               
+                <a href="@Url.Action("Index", "Restaurant", new {restaurantId = restaurant.RestaurantId})" style="text-decoration: none; color: currentColor">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <div class="ratio ratio-1x1">
+                                <img src=@restaurant.Image class="img-fluid rounded-start" alt="...">
                             </div>
-                        </a>
-                </div>    
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    @restaurant.Name
+                                    <span class="badge bg-danger">
+                                        -@restaurant.Discount%
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tag-fill" viewBox="0 0 16 16">
+                                            <path d="M2 1a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l4.586-4.586a1 1 0 0 0 0-1.414l-7-7A1 1 0 0 0 6.586 1H2zm4 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                        </svg>
+                                    </span>
+                                </h5>
+                                <p class="card-subtitle mb-2 text-muted">@restaurant.Address</p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        @restaurant.Category - Average price : @restaurant.AveragePrice €
+                                    </small>
+                                </p>
+
+                                <p class="card-text">
+                                    @restaurant.Stars
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                    </svg>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>    
         </div>
         
 

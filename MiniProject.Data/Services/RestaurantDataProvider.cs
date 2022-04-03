@@ -53,6 +53,11 @@ namespace MiniProject.data.Services
             return restaurant.Dishes.OrderBy(r => r.Id).ToList();
         }
 
+        public Dish GetDishById(Restaurant restaurant, int DishId)
+        {
+            return restaurant.Dishes.OrderBy(r => r.Id).ToList()[DishId - 1];
+        }
+
     }   
 }
 

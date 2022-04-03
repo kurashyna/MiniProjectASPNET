@@ -1,7 +1,7 @@
-﻿@model MiniProject.data.Models.Restaurant
+﻿@model MiniProject.Data.Models.DishViewModel
 
 @{
-    ViewBag.Title = @Model.Name;
+    ViewBag.Title = @Model.Restaurant.Name;
 }
 
 <!DOCTYPE html>
@@ -9,14 +9,109 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>@Model.Name</title>
+    <title> @Model.Restaurant.Name</title>
 </head>
 <body>
 <div class="row mt-5">
+    @if (@Model.Dish != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert mt-5">
+            @Model.Dish.Name added to your cart!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
     <div class="col">
-        <h1 class="fs-1">@Model.Name</h1>
-        <p> @Model.Address </p>
+        <h1 class="fs-1">@Model.Restaurant.Name</h1>
+        <p> @Model.Restaurant.Address </p>
+    </div>
+    <div class="col">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          View Cart <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart4" viewBox="0 0 16 16">
+                      <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
+                    </svg>
+        </button>
     </div>
 </div>
+<hr/>
+
+@{
+    foreach (var item in Model.Restaurant.Dishes.GroupBy(d => d.Category))
+    {
+        <h3 class="mt-5"> @item.Key </h3>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            @foreach (var dish in item)
+            {
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@dish.Name</h5>
+                            @if (dish.Discount != 0)
+                            {
+                                <h6 class="card-subtitle mb-2 text-muted"> - @dish.Discount%</h6>
+                            }
+                            <p class="card-text">@dish.Description</p>
+                            @using (Html.BeginForm("Index", "Restaurant"))
+                            {
+                                <a href="/restaurant/Index/?restaurantId=@Model.Restaurant.RestaurantId&_dishId=@dish.Id">Ajouter au panier</a>
+                            }
+                        </div>
+                        <div class="card-footer">
+                            @dish.Price€
+                            @if (dish.IsPopular)
+                            {
+                                <span class="text-warning"> -
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-stars" viewBox="0 0 16 16">
+                                        <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828l.645-1.937zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.734 1.734 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.734 1.734 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.734 1.734 0 0 0 3.407 2.31l.387-1.162zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L10.863.1z"/>
+                                    </svg> Popular </span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+}
+@if (@Model.Cart != null)
+{
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">@Model.Restaurant.Name Cart</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @foreach (var Dish in Model.Cart)
+                    {
+                        <p>@Dish.Name - @Dish.Price</p>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+}
+else
+{
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">@Model.Restaurant.Name Cart</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <p>Add items to your cart first</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+}
+
 </body>
 </html>
