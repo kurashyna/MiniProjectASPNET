@@ -19,17 +19,12 @@ namespace MiniProjectWeb.Controllers
         [HttpGet]
         public ActionResult Index(int restaurantId, int? _dishId)
         {
-            if (Session["RestaurantId"] == null)
-            {
-                Session["RestaurantId"] = restaurantId;
-            }
             if (Session[restaurantId.ToString()] == null)
             {
                 Session[restaurantId.ToString()] = new List<Dish>();
             }
             
             int dishId = _dishId ?? -1;
-            Console.WriteLine(dishId);
             restaurantData = RestaurantDataProvider.Instance();
             Restaurant restaurant = restaurantData.GetRestaurant(restaurantId);
             DishViewModel dishViewModel = new DishViewModel();
@@ -38,7 +33,6 @@ namespace MiniProjectWeb.Controllers
             {
                 Dish dish = restaurantData.GetDishById(restaurant, dishId);
                 dishViewModel.Dish = dish;
-                System.Console.WriteLine(dishViewModel.Dish.Name);
                 List<Dish> cartList = Session[restaurantId.ToString()] as List<Dish>;
                 cartList.Add(dish);
                 Session[restaurantId.ToString()] = cartList;
