@@ -7,7 +7,6 @@ namespace MiniProject.Data.Models
     {
         public Restaurant Restaurant { get; set; }
         public Dish Dish { get; set; }
-        
-        public  List<Dish> Cart { get; set; }
+        public  IDictionary<Dish, int> Cart { get; set; }
     }
 }

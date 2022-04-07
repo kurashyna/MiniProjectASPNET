@@ -21,7 +21,7 @@ namespace MiniProjectWeb.Controllers
         {
             if (Session[restaurantId.ToString()] == null)
             {
-                Session[restaurantId.ToString()] = new List<Dish>();
+                Session[restaurantId.ToString()] = new Dictionary<Dish, int>();
             }
             
             int dishId = _dishId ?? -1;
@@ -33,11 +33,16 @@ namespace MiniProjectWeb.Controllers
             {
                 Dish dish = restaurantData.GetDishById(restaurant, dishId);
                 dishViewModel.Dish = dish;
-                List<Dish> cartList = Session[restaurantId.ToString()] as List<Dish>;
-                cartList.Add(dish);
+                IDictionary<Dish, int> cartList = Session[restaurantId.ToString()] as Dictionary<Dish, int>;
+                if (cartList.ContainsKey(dish)) {
+                    cartList[dish]++;
+                } else
+                {
+                    cartList.Add(dish, 1);
+                }
                 Session[restaurantId.ToString()] = cartList;
             }
-            List<Dish> cart = Session[restaurantId.ToString()] as List<Dish>;
+            IDictionary<Dish, int> cart = Session[restaurantId.ToString()] as Dictionary<Dish, int>;
             dishViewModel.Cart = cart;
             
             return View(dishViewModel);

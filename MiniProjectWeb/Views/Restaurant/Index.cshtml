@@ -83,7 +83,7 @@
                 <div class="modal-body">
                     @foreach (var Dish in Model.Cart)
                     {
-                        <p>@Dish.Name - @Dish.Price</p>
+                        <p>@Dish.Key.Name - @Dish.Key.Price - Quantity : @Dish.Value</p>
                     }
                 </div>
                 <div class="modal-footer">
