@@ -15,10 +15,11 @@ namespace MiniProjectWeb.Controllers
     {
         
         private IRestaurantData restaurantData;
-
+        
         [HttpGet]
         public ActionResult Index(int restaurantId, int? _dishId)
         {
+            
             if (Session[restaurantId.ToString()] == null)
             {
                 Session[restaurantId.ToString()] = new Dictionary<Dish, int>();
@@ -46,6 +47,51 @@ namespace MiniProjectWeb.Controllers
             dishViewModel.Cart = cart;
             
             return View(dishViewModel);
+            
+        }
+        
+        public ActionResult Cart(int restaurantId, int dishId = -1 , int actionId = -1 )
+        {
+            restaurantData = RestaurantDataProvider.Instance();
+            Restaurant restaurant = restaurantData.GetRestaurant(restaurantId);
+            DishViewModel dishViewModel = new DishViewModel();
+            dishViewModel.Restaurant = restaurant;
+            IDictionary<Dish, int> cart = Session[restaurantId.ToString()] as Dictionary<Dish, int>;
+            if (actionId == 1)
+            {
+                Dish dish = restaurantData.GetDishById(restaurant, dishId);
+                if (cart.ContainsKey(dish))
+                {
+                    cart[dish]++;
+                }
+                else
+                {
+                    cart.Add(dish, 1);
+                }
+                Session[restaurantId.ToString()] = cart;
+            }
+            else if (actionId == 2)
+            {
+                Dish dish = restaurantData.GetDishById(restaurant, dishId);
+                if (cart.ContainsKey(dish))
+                {
+                    cart[dish]--;
+                    if (cart[dish] == 0)
+                    {
+                        cart.Remove(dish);
+                    }
+                    Session[restaurantId.ToString()] = cart;
+                }
+            }
+            dishViewModel.Cart = cart;
+            if (dishViewModel.Cart.Count > 0)
+            {
+                return View(dishViewModel);
+            } else
+            {
+                return RedirectToAction("Index", new {restaurantId = restaurantId});
+            }
+            
         }
     }
 }

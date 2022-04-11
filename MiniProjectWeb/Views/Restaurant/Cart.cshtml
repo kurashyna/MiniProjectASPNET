@@ -1,0 +1,58 @@
+﻿@using MiniProject.Data.Models
+@model MiniProject.Data.Models.DishViewModel
+
+@{
+    ViewBag.Title = "Cart of " + @Model.Restaurant.Name;
+    float total = 0.0f;
+}
+
+<h1 class="mt-5">
+    Cart of @Model.Restaurant.Name
+</h1>
+<div class="container">
+    <div class="row justifiy-content-center">
+        <div class="col-9">
+            <ul class="list-group list-group-flush">
+                @foreach (var dish in Model.Cart)
+                {
+                    float price = dish.Value * dish.Key.Price - (dish.Key.Price * (dish.Key.Discount / 100));
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">@dish.Value x @dish.Key.Name</div>
+                            @dish.Key.Description
+                            
+                        </div>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <a href="/restaurant/Cart/?restaurantId=@Model.Restaurant.RestaurantId&dishId=@dish.Key.Id&actionId=2">
+                                <button type="button" class="btn btn-outline-info">-</button>
+                            </a>
+                            <a href="/restaurant/Cart/?restaurantId=@Model.Restaurant.RestaurantId&dishId=@dish.Key.Id&actionId=1">
+                                <button type="button" class="btn btn-outline-info">+</button>
+                            </a>
+                        </div>
+                        <span class="badge bg-primary rounded-pill">@price €</span>
+                    </li>
+                    total += price;
+                }
+                @{
+                    total += 5.0f;
+                }
+            </ul>
+        </div>
+        <div class="col-3 justify-content-center align-items-center">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.Restaurant.Name</h5>
+                    <div class="ratio-1x1">
+                        <img src=@Model.Restaurant.Image class="card-img-top img-fluid" alt="...">
+                    </div>
+                    <h6 class="card-subtitle mb-2 mt-2 text-muted">@Model.Restaurant.Address</h6>
+                    <p class="card-text">Delivery fees : 5€</p>
+                    <p class="card-text">Total to pay : @total €</p>
+                    <a href="#" class="card-link">Pay</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
